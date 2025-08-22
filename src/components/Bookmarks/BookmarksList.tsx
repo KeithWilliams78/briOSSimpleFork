@@ -3,11 +3,8 @@ import { useRouter } from 'next/router'
 import * as React from 'react'
 
 import { ListContainer } from '~/components/ListDetail/ListContainer'
-import { PAGINATION_AMOUNT } from '~/graphql/constants'
-import { useGetBookmarksQuery } from '~/graphql/types.generated'
+import { Bookmark } from '~/data/bookmarks'
 
-import { ListLoadMore } from '../ListDetail/ListLoadMore'
-import { LoadingSpinner } from '../LoadingSpinner'
 import { BookmarksListItem } from './BookmarkListItem'
 import { BookmarksTitlebar } from './BookmarksTitlebar'
 
@@ -16,36 +13,29 @@ export const BookmarksContext = React.createContext({
   setTag: (tag: string) => {},
 })
 
-export function BookmarksList() {
+interface BookmarksListProps {
+  bookmarks: Bookmark[]
+  allTags: string[]
+}
+
+export function BookmarksList({ bookmarks, allTags }: BookmarksListProps) {
   const router = useRouter()
   const tagQuery = router.query?.tag as string
   const [tag, setTag] = React.useState(tagQuery)
   const [isVisible, setIsVisible] = React.useState(false)
   const [scrollContainerRef, setScrollContainerRef] = React.useState(null)
 
-  const variables = tag
-    ? {
-        first: PAGINATION_AMOUNT,
-        after: null,
-        filter: { tag: tag },
-      }
-    : null
-  const { data, error, loading, fetchMore } = useGetBookmarksQuery({
-    variables,
-  })
+  // Filter bookmarks by tag
+  const filteredBookmarks = React.useMemo(() => {
+    if (!tag) return bookmarks
+    return bookmarks.filter((bookmark) =>
+      bookmark.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
+    )
+  }, [bookmarks, tag])
 
   const defaultContextValue = {
     tag,
     setTag,
-  }
-
-  function handleFetchMore() {
-    return fetchMore({
-      variables: {
-        ...variables,
-        after: data.bookmarks.pageInfo.endCursor,
-      },
-    })
   }
 
   // scroll to the top of the list whenever the filters are changed
@@ -53,29 +43,10 @@ export function BookmarksList() {
     if (scrollContainerRef?.current) scrollContainerRef.current.scrollTo(0, 0)
   }, [tag])
 
-  React.useEffect(() => {
-    if (isVisible) handleFetchMore()
-  }, [isVisible])
-
   // if a user is linked to /bookmarks?tag=foo, clear the query filter but stay on the same page
   React.useEffect(() => {
     if (tagQuery) router.push(router.pathname, { query: null })
   }, [tagQuery])
-
-  if (loading && !data?.bookmarks) {
-    return (
-      <ListContainer onRef={setScrollContainerRef}>
-        <BookmarksTitlebar scrollContainerRef={scrollContainerRef} />
-        <div className="flex flex-1 items-center justify-center">
-          <LoadingSpinner />
-        </div>
-      </ListContainer>
-    )
-  }
-
-  if (error) return null
-
-  const { bookmarks } = data
 
   return (
     <BookmarksContext.Provider value={defaultContextValue}>
@@ -83,19 +54,15 @@ export function BookmarksList() {
         <BookmarksTitlebar scrollContainerRef={scrollContainerRef} />
         <LayoutGroup>
           <div className="lg:space-y-1 lg:p-3">
-            {bookmarks.edges.map((bookmark) => {
-              const active = router.query.id === bookmark.node.id
+            {filteredBookmarks.map((bookmark) => {
+              const active = router.query.id === bookmark.id
               return (
-                <motion.div layout key={bookmark.node.id}>
-                  <BookmarksListItem active={active} bookmark={bookmark.node} />
+                <motion.div layout key={bookmark.id}>
+                  <BookmarksListItem active={active} bookmark={bookmark} />
                 </motion.div>
               )
             })}
           </div>
-
-          {bookmarks.pageInfo.hasNextPage && (
-            <ListLoadMore setIsVisible={setIsVisible} />
-          )}
         </LayoutGroup>
       </ListContainer>
     </BookmarksContext.Provider>

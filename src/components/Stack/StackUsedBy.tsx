@@ -1,15 +1,13 @@
-import Link from 'next/link'
-import * as React from 'react'
-
-import { Avatar } from '~/components/Avatar'
-import { Tooltip } from '~/components/Tooltip'
-import {
-  useGetStackQuery,
-  useToggleStackUserMutation,
-} from '~/graphql/types.generated'
-import { useWindowFocus } from '~/hooks/useWindowFocus'
+// import {
+//   useGetStackQuery,
+//   useToggleStackUserMutation,
+// } from '~/graphql/types.generated'
 
 export function StackUsedBy(props) {
+  // TODO: Convert to static data
+  return null
+
+  /*
   const { triggerSignIn } = props
   const { data, loading, error, refetch } = useGetStackQuery({
     variables: { slug: props.stack.slug },
@@ -71,4 +69,5 @@ export function StackUsedBy(props) {
       </div>
     </div>
   )
+  */
 }

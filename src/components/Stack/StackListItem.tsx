@@ -2,11 +2,11 @@ import Image from 'next/image'
 import * as React from 'react'
 
 import { ListItem } from '~/components/ListDetail/ListItem'
-import { StackListItemFragment } from '~/graphql/types.generated'
+// import { StackListItemFragment } from '~/graphql/types.generated'
 
 // TODO: Figure out how to get this dynamically
 interface Props {
-  stack: StackListItemFragment
+  stack: any // TODO: Define proper type when converting to static data
   active: boolean
 }
 

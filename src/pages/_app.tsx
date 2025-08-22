@@ -8,7 +8,7 @@ import * as React from 'react'
 import { useEffect } from 'react'
 
 import { SiteLayout } from '~/components/Layouts'
-import { LoginErrorToast } from '~/components/LoginErrorToast'
+// import { LoginErrorToast } from '~/components/LoginErrorToast'
 import { Providers } from '~/components/Providers'
 
 Router.events.on('routeChangeComplete', (as, routeProps) => {
@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }) {
     Component.getLayout ||
     ((page) => (
       <Providers pageProps={pageProps}>
-        <LoginErrorToast />
+        {/* <LoginErrorToast /> */}
         <SiteLayout>{page}</SiteLayout>
       </Providers>
     ))

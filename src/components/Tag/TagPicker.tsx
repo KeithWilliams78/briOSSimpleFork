@@ -2,15 +2,17 @@ import { Listbox } from '@headlessui/react'
 import * as React from 'react'
 import { ChevronDown } from 'react-feather'
 
-import { useGetTagsQuery } from '~/graphql/types.generated'
-
+// import { useGetTagsQuery } from '~/graphql/types.generated'
 import { Tag } from '.'
 
 export function TagPicker({ filter, onChange, defaultValue = undefined }) {
-  const { data, loading } = useGetTagsQuery()
+  // const { data, loading } = useGetTagsQuery()
   const [selected, setSelected] = React.useState(defaultValue)
 
-  if (loading) return null
+  // Temporary fallback data
+  const data = { tags: [] }
+
+  // if (loading) return null
 
   function handleChange(val) {
     setSelected(val)

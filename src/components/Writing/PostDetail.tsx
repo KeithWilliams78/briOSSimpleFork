@@ -3,25 +3,21 @@ import * as React from 'react'
 import { Detail } from '~/components/ListDetail/Detail'
 import { TitleBar } from '~/components/ListDetail/TitleBar'
 import { MarkdownRenderer } from '~/components/MarkdownRenderer'
-import { useGetPostQuery } from '~/graphql/types.generated'
+import { Post } from '~/lib/posts'
 import { timestampToCleanTime } from '~/lib/transformers'
 
 import { PostSEO } from './PostSEO'
 
-export function PostDetail({ slug }) {
+interface PostDetailProps {
+  post: Post
+}
+
+export function PostDetail({ post }: PostDetailProps) {
   const scrollContainerRef = React.useRef(null)
   const titleRef = React.useRef(null)
-  const { data, error, loading } = useGetPostQuery({ variables: { slug } })
-
-  if (loading) {
-    return <Detail.Loading />
-  }
-
-  if (!data?.post || error) {
-    return <Detail.Null />
-  }
-  const { post } = data
-  const publishedAt = timestampToCleanTime({ timestamp: post.publishedAt })
+  const publishedAt = post.date
+    ? timestampToCleanTime({ timestamp: post.date })
+    : null
   return (
     <>
       <PostSEO post={post} />
@@ -40,14 +36,14 @@ export function PostDetail({ slug }) {
           <Detail.Header>
             <Detail.Title ref={titleRef}>{post.title}</Detail.Title>
             <span
-              title={publishedAt.raw}
+              title={publishedAt?.raw || post.date}
               className="text-tertiary inline-block leading-snug"
             >
-              {publishedAt.formatted}
+              {publishedAt?.formatted || post.date}
             </span>
           </Detail.Header>
 
-          <MarkdownRenderer children={post.text} className="prose mt-8" />
+          <MarkdownRenderer children={post.content} className="prose mt-8" />
 
           {/* bottom padding to give space between post content and comments */}
           <div className="py-6" />

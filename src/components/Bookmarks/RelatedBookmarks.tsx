@@ -1,20 +1,16 @@
 import Link from 'next/link'
 import * as React from 'react'
 
-import { useGetBookmarksQuery } from '~/graphql/types.generated'
+import { Bookmark, getBookmarks } from '~/data/bookmarks'
 
-export function RelatedBookmarks({ bookmark }) {
-  const { data, loading } = useGetBookmarksQuery({
-    variables: { filter: { host: bookmark.host } },
-  })
+interface RelatedBookmarksProps {
+  bookmark: Bookmark
+}
 
-  if (loading) return null
-
-  const { bookmarks } = data
+export function RelatedBookmarks({ bookmark }: RelatedBookmarksProps) {
+  const allBookmarks = getBookmarks()
   const { host, url } = bookmark
-  const related = bookmarks.edges.filter(
-    (b) => b.node.host === host && b.node.url !== url
-  )
+  const related = allBookmarks.filter((b) => b.host === host && b.url !== url)
 
   if (related.length === 0) return null
 
@@ -34,14 +30,14 @@ export function RelatedBookmarks({ bookmark }) {
         </p>
         <ul>
           {related.map((r) => (
-            <li key={r.node.id}>
+            <li key={r.id}>
               <Link
                 href="/bookmarks/[id]"
-                as={`/bookmarks/${r.node.id}`}
+                as={`/bookmarks/${r.id}`}
                 onClick={handleClick}
                 className="flex justify-between px-2 py-2 -mx-2 font-medium rounded-md text-primary line-clamp-1 hover:bg-gray-200 dark:hover:bg-gray-700 md:-mx-3 md:px-3"
               >
-                <span>{r.node.title}</span>
+                <span>{r.title}</span>
               </Link>
             </li>
           ))}

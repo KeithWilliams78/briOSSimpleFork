@@ -1,15 +1,10 @@
-import { useRouter } from 'next/router'
-import * as React from 'react'
-
-import { ListContainer } from '~/components/ListDetail/ListContainer'
-import { useGetStacksQuery } from '~/graphql/types.generated'
-
-import { ListLoadMore } from '../ListDetail/ListLoadMore'
-import { LoadingSpinner } from '../LoadingSpinner'
-import { StackListItem } from './StackListItem'
-import { StackTitlebar } from './StackTitlebar'
+// import { useGetStacksQuery } from '~/graphql/types.generated'
 
 export function StackList() {
+  // TODO: Convert to static data
+  return null
+
+  /*
   const router = useRouter()
   const [isVisible, setIsVisible] = React.useState(false)
   let [scrollContainerRef, setScrollContainerRef] = React.useState(null)
@@ -61,4 +56,5 @@ export function StackList() {
       </div>
     </ListContainer>
   )
+  */
 }

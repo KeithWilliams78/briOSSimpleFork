@@ -149,11 +149,11 @@ export function SidebarNavigation() {
         },
 
         {
-          href: '/app-dissection',
-          label: 'App Dissection',
+          href: '/ai-product-dissections',
+          label: 'AI Product Dissections',
           icon: AppDissectionIcon,
           trailingAccessory: null,
-          isActive: router.asPath.indexOf('/app-dissection') >= 0,
+          isActive: router.asPath.indexOf('/ai-product-dissections') >= 0,
           trailingAction: null,
           isExternal: false,
         },

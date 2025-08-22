@@ -3,21 +3,19 @@ import * as React from 'react'
 import { Check } from 'react-feather'
 
 import { GhostButton } from '~/components/Button'
-import { useGetTagsQuery } from '~/graphql/types.generated'
+import { getAllTags } from '~/data/bookmarks'
 
 import { BookmarksContext } from './BookmarksList'
 
 export function BookmarksFilterMenu() {
-  const { data, loading } = useGetTagsQuery()
+  const allTags = getAllTags()
   const { tag, setTag } = React.useContext(BookmarksContext)
 
-  if (loading) return null
+  const allowedTags = ['AI', 'Development', 'Tools', 'React', 'Framework']
 
-  const { tags } = data
-
-  const allowedTags = ['website', 'reading', 'portfolio']
-
-  const filtered = tags.filter((t) => allowedTags.indexOf(t.name) >= 0)
+  const filtered = allTags
+    .filter((t) => allowedTags.includes(t))
+    .map((name) => ({ name }))
 
   return (
     <div className="flex items-center justify-center">
@@ -86,7 +84,7 @@ export function BookmarksFilterMenu() {
                               active
                                 ? 'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-white'
                                 : 'text-gray-900 dark:text-gray-200'
-                            } text-secondary flex w-full cursor-pointer items-center space-x-2 py-2 px-4 text-sm capitalize`}
+                            } text-secondary flex w-full cursor-pointer items-center space-x-2 py-2 px-4 text-sm`}
                           >
                             {tag === t.name ? (
                               <Check size={16} />

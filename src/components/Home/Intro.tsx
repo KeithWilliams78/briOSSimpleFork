@@ -126,8 +126,8 @@ const projects = [
     date: '',
   },
   {
-    href: '/app-dissection',
-    title: 'App Dissection',
+    href: '/ai-product-dissections',
+    title: 'AI Product Dissections',
     subtitle: '',
     date: '',
   },

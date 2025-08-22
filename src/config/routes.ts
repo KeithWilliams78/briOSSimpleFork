@@ -54,14 +54,14 @@ const routes = {
       url: 'bookmarks',
     }),
   },
-  appDissection: {
-    label: 'App Dissection',
-    path: '/app-dissection',
+  aiProductDissections: {
+    label: 'AI Product Dissections',
+    path: '/ai-product-dissections',
     seo: extendSEO({
-      title: 'App Dissection',
-      description: 'In-depth design explorations.',
-      image: 'og/app-dissection.png',
-      url: 'app-dissection',
+      title: 'AI Product Dissections',
+      description: 'In-depth reviews and analysis of AI products and tools.',
+      image: 'og/ai-product-dissections.png',
+      url: 'ai-product-dissections',
     }),
   },
   ama: {

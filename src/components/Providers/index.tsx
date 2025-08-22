@@ -1,8 +1,5 @@
-import { ApolloProvider } from '@apollo/client'
 import { NextPageContext } from 'next'
 import * as React from 'react'
-
-import { useApollo } from '~/lib/apollo'
 
 import { SEO } from './SEO'
 import { Toast } from './Toaster'
@@ -22,8 +19,6 @@ export const GlobalNavigationContext = React.createContext(
 )
 
 export function Providers({ children, pageProps }: Props) {
-  const apolloClient = useApollo(pageProps)
-
   const initialState = {
     isOpen: false,
     setIsOpen,
@@ -40,11 +35,9 @@ export function Providers({ children, pageProps }: Props) {
       <SEO />
       <Toast />
 
-      <ApolloProvider client={apolloClient}>
-        <GlobalNavigationContext.Provider value={state}>
-          {children}
-        </GlobalNavigationContext.Provider>
-      </ApolloProvider>
+      <GlobalNavigationContext.Provider value={state}>
+        {children}
+      </GlobalNavigationContext.Provider>
     </>
   )
 }

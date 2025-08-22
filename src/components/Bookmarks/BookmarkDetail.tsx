@@ -4,32 +4,22 @@ import * as React from 'react'
 import { Link as LinkIcon } from 'react-feather'
 
 import { PrimaryButton } from '~/components/Button'
-import { Comments } from '~/components/Comments'
 import { Detail } from '~/components/ListDetail/Detail'
 import { TitleBar } from '~/components/ListDetail/TitleBar'
 import { Tags } from '~/components/Tag'
 import routes from '~/config/routes'
-import { CommentType, useGetBookmarkQuery } from '~/graphql/types.generated'
+import { Bookmark } from '~/data/bookmarks'
 
 import { MarkdownRenderer } from '../MarkdownRenderer'
 import { RelatedBookmarks } from './RelatedBookmarks'
 
-export function BookmarkDetail({ id }) {
+interface BookmarkDetailProps {
+  bookmark: Bookmark
+}
+
+export function BookmarkDetail({ bookmark }: BookmarkDetailProps) {
   const scrollContainerRef: React.RefObject<HTMLDivElement> = React.useRef(null)
   const titleRef: React.RefObject<HTMLHeadingElement> = React.useRef(null)
-  const { data, loading, error } = useGetBookmarkQuery({
-    variables: { id },
-  })
-
-  if (loading) {
-    return <Detail.Loading />
-  }
-
-  if (!data?.bookmark || error) {
-    return <Detail.Null />
-  }
-
-  const { bookmark } = data
 
   return (
     <>
@@ -108,8 +98,6 @@ export function BookmarkDetail({ id }) {
         </Detail.ContentContainer>
 
         <RelatedBookmarks bookmark={bookmark} />
-
-        <Comments refId={bookmark.id} type={CommentType.Bookmark} />
       </Detail.Container>
     </>
   )

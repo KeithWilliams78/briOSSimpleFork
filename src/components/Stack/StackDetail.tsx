@@ -1,39 +1,34 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { NextSeo } from 'next-seo'
 import * as React from 'react'
-import { Link as LinkIcon } from 'react-feather'
 
-import { PrimaryButton } from '~/components/Button'
-import { Comments } from '~/components/Comments'
+// import { Comments } from '~/components/Comments'
 import { Detail } from '~/components/ListDetail/Detail'
-import { TitleBar } from '~/components/ListDetail/TitleBar'
-import { Tags } from '~/components/Tag'
-import routes from '~/config/routes'
-import { CommentType, useGetStackQuery } from '~/graphql/types.generated'
 
-import { MarkdownRenderer } from '../MarkdownRenderer'
-import { SignInDialog } from '../SignInDialog'
-import { StackUsedBy } from './StackUsedBy'
+// // import { CommentType, useGetStackQuery } from '~/graphql/types.generated'
+// import { SignInDialog } from '../SignInDialog'
 
 export function StackDetail({ slug }) {
   const scrollContainerRef = React.useRef(null)
   const titleRef = React.useRef(null)
 
-  const { data, loading, error } = useGetStackQuery({
-    variables: { slug },
-  })
+  // TODO: Convert to static data
+  // const { data, loading, error } = useGetStackQuery({
+  //   variables: { slug },
+  // })
 
-  if (loading) {
-    return <Detail.Loading />
-  }
+  // if (loading) {
+  //   return <Detail.Loading />
+  // }
 
-  if (!data?.stack || error) {
-    return <Detail.Null />
-  }
+  // if (!data?.stack || error) {
+  //   return <Detail.Null />
+  // }
 
-  const { stack } = data
+  // Temporary fallback for build
+  return <Detail.Null />
 
+  // const { stack } = data
+
+  /*
   return (
     <>
       <NextSeo
@@ -113,4 +108,5 @@ export function StackDetail({ slug }) {
       </Detail.Container>
     </>
   )
+  */
 }
